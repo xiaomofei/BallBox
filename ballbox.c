@@ -9,8 +9,8 @@
 #      History:
 =============================================================================*/
 #include <stdlib.h>
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
 #define true 1
 #define false 0
 
@@ -30,23 +30,46 @@ listNode *head = NULL;
 
 void insert(Ball ball);
 double distance(Ball b1, Ball b2);
+double m_abs(double num);
 int judge(Ball b);
+void freeBox();
 void putBall();
-double step = 0.1;
 
+
+double step = 0.01;
 
 int main(int argc, char *argv[])
 {
-  putBall(); 
-  putBall();
-  listNode *tmp = head;
 
-  while (tmp) {
-    printf("%lf, %lf, %lf\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
-    tmp = tmp->next;
+  int n, i;
+  while(scanf("%d", &n) != EOF)
+  {
+    for(i = 0; i < n; i ++)
+    {
+      putBall();
+    }
+    listNode *tmp = head;
+    double R2 = 0;
+    while (tmp) {
+      printf("%lf, %lf, %lf\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
+      R2 += tmp->ball.r * tmp->ball.r;
+      tmp = tmp->next;
+    }
+    printf("R^2 if %lf\n", R2);
+    freeBox();
   }
 
+
   return 0;
+}
+void freeBox()
+{
+  while(head)
+  {
+    listNode *tmp = head;
+    head = tmp->next;
+    free(tmp);
+  }
 }
 void insert(Ball ball)
 {
@@ -66,25 +89,31 @@ void putBall()
     for (j = 0; ball.y < 1; ++j) {
       ball.y += step;
       ball.r = 0;
-      while(judge(ball))
+      double rstep = 0.1;
+      while(rstep > 0.00001)
       {
         if(ball.r > maxBall.r)
         {
           maxBall = ball;
         }
-          /*printf("%lf, %lf, %lf\n",ball.x, ball.y, ball.r);*/
-        ball.r += step;
+        /*printf("%lf, %lf, %lf\n",ball.x, ball.y, ball.r);*/
+        ball.r += rstep;
+        if(!judge(ball))
+        {
+          ball.r -= rstep;
+          rstep /= 10;
+        }
       }
     }
   }
   if(judge(maxBall)){
-  insert(maxBall);
+    insert(maxBall);
   }
 }
 
 int judge(Ball b)
 {
-  if((abs(b.x) + b.r) > 1 || (abs(b.y) + b.r) > 1)
+  if((m_abs(b.x) + b.r) > 1 || (m_abs(b.y) + b.r) > 1)
   {
     return false;
   }
@@ -99,6 +128,12 @@ int judge(Ball b)
     tmp = tmp->next;
   }
   return true;
+}
+double m_abs(double num)
+{
+  if(num > 0)
+    return num;
+  return 0 - num;
 }
 
 double distance(Ball b1, Ball b2)
