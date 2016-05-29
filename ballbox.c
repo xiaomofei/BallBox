@@ -22,28 +22,37 @@ typedef struct _Ball {
 
 typedef struct _listNode {
   struct _listNode * next;
+  int isblock;
   Ball ball;
 } listNode;
 
 
-listNode *head = NULL;
 
-void insert(Ball ball);
+void insert(Ball ball, int isblock);
 double distance(Ball b1, Ball b2);
 double m_abs(double num);
 int judge(Ball b);
 void freeBox();
 void putBall();
 
+void putBlock(double x, double y);
 
+
+listNode *head = NULL;
 double step = 0.01;
 
 int main(int argc, char *argv[])
 {
 
-  int n, i;
-  while(scanf("%d", &n) != EOF)
+  int n, blocks, i;
+  while(scanf("%d%d", &n, &blocks) != EOF)
   {
+    for(i = 0; i < blocks; i ++)
+    {
+      double x, y;
+      scanf("%lf%lf", &x, &y);
+      putBlock(x, y);
+    }
     for(i = 0; i < n; i ++)
     {
       putBall();
@@ -51,6 +60,11 @@ int main(int argc, char *argv[])
     listNode *tmp = head;
     double R2 = 0;
     while (tmp) {
+      if(tmp->isblock)
+      {
+        tmp = tmp->next;
+        continue; 
+      }
       printf("%lf, %lf, %lf\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
       R2 += tmp->ball.r * tmp->ball.r;
       tmp = tmp->next;
@@ -59,8 +73,12 @@ int main(int argc, char *argv[])
     freeBox();
   }
 
-
   return 0;
+}
+void putBlock(double x, double y)
+{
+  Ball ball = {x, y, 0};
+  insert(ball, true);
 }
 void freeBox()
 {
@@ -71,9 +89,10 @@ void freeBox()
     free(tmp);
   }
 }
-void insert(Ball ball)
+void insert(Ball ball, int isblock)
 {
   listNode * node = (listNode *)malloc(sizeof(listNode));
+  node->isblock = isblock;
   node->ball = ball;
   node->next = head;
   head = node;
@@ -107,7 +126,7 @@ void putBall()
     }
   }
   if(judge(maxBall)){
-    insert(maxBall);
+    insert(maxBall, false);
   }
 }
 
