@@ -59,17 +59,18 @@ int main(int argc, char *argv[])
     }
     listNode *tmp = head;
     double R2 = 0;
+    printf("X\t  Y\t  R\n");
     while (tmp) {
       if(tmp->isblock)
       {
         tmp = tmp->next;
         continue; 
       }
-      printf("%lf, %lf, %lf\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
+      printf("%.3lf\t %.3lf\t %.3lf\t\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
       R2 += tmp->ball.r * tmp->ball.r;
       tmp = tmp->next;
     }
-    printf("R^2 if %lf\n", R2);
+    printf("\nsum of R^2: \t%lf\n", R2);
     freeBox();
   }
 
