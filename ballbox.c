@@ -53,24 +53,23 @@ int main(int argc, char *argv[])
       scanf("%lf%lf", &x, &y);
       putBlock(x, y);
     }
+    printf("X\t  Y\t  R\n");
     for(i = 0; i < n; i ++)
     {
       putBall();
     }
     listNode *tmp = head;
     double R2 = 0;
-    printf("X\t  Y\t  R\n");
     while (tmp) {
       if(tmp->isblock)
       {
         tmp = tmp->next;
         continue; 
       }
-      printf("%.3lf\t %.3lf\t %.3lf\t\n",tmp->ball.x, tmp->ball.y, tmp->ball.r);
       R2 += tmp->ball.r * tmp->ball.r;
       tmp = tmp->next;
     }
-    printf("\nsum of R^2: \t%lf\n", R2);
+    printf("sum of R^2: \t%lf\n\n", R2);
     freeBox();
   }
 
