@@ -1,13 +1,3 @@
-/*=============================================================================
-#     FileName: ballbox.c
-#         Desc: 
-#       Author: LiChenda
-#        Email: lichenda1996@gmail.com
-#     HomePage: https://github.com/LiChenda
-#      Version: 0.0.1
-#   LastChange: 2016-05-29 21:08:30
-#      History:
-=============================================================================*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
