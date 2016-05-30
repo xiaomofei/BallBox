@@ -128,6 +128,7 @@ void putBall()
   }
   if(judge(maxBall)){
     insert(maxBall, false);
+      printf("%.3lf\t %.3lf\t %.3lf\t\n",maxBall.x, maxBall.y, maxBall.r);
   }
 }
 
